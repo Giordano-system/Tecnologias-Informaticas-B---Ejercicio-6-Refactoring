@@ -61,18 +61,10 @@ $module = $segments[0] ?? null;
  * Se queda con el primer valor encontrado que seria el modulo
  */
 
+ $_GET['modulo'] = $segments[0];
 
- if (!$module) {
-    http_response_code(400);
-    echo json_encode(["error" => "No module specified"]);
-    exit();
-}
 
-/**
- * Verificamos que sea un modulo valido, por ejemplo backend/server.php volveria daria error si la DIR fuera solo eso
- */
-
- $routeFile = __DIR__ . "/routes/{$module}Routes.php";
+ $routeFile = __DIR__ . "/routes/Routes.php";
 
  /**
   * Creamos la ruta y verificamos que exista! 
