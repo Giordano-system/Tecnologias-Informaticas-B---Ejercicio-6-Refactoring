@@ -16,3 +16,10 @@ form input, form button {
 #optional{
     margin-top: 9px;
 }
+
+aside{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between ;
+    align-items: center;
+}
