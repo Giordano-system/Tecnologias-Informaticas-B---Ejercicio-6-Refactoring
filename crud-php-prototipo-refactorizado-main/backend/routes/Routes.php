@@ -1,6 +1,8 @@
 <?php
 require_once("./config/databaseConfig.php");
 
+//Tomo el valor del modulo pasado por server.php para usarlo y armar la ruta para llamar al debido controlador
+
 $modulo=$_GET['modulo'];
 $path = "./controllers/{$modulo}Controller.php";
 require_once($path);
