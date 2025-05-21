@@ -17,7 +17,7 @@ function handleGet($conn) {
 
 function handlePost($conn) {
     $input = json_decode(file_get_contents("php://input"), true);
-    if (createSubject($conn, $input['subname'], $input['professor'], $input['optional'], $input['credits'])) {
+    if (createSubject($conn, $input['name'])) {
         echo json_encode(["message" => "Materia agregada correctamente"]);
     } else {
         http_response_code(500);
@@ -27,7 +27,7 @@ function handlePost($conn) {
 
 function handlePut($conn) {
     $input = json_decode(file_get_contents("php://input"), true);
-    if (updateSubject($conn, $input['id'], $input['subname'], $input['professor'], $input['optional'], $input['credits'])) {
+    if (updateSubject($conn, $input['id'], $input['name'])) {
         echo json_encode(["message" => "Actualizada correctamente"]);
     } else {
         http_response_code(500);

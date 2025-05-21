@@ -17,7 +17,7 @@ function handleGet($conn) {
 
 function handlePost($conn) {
     $input = json_decode(file_get_contents("php://input"), true);
-    if (createStudentSubject($conn, $input['student_id'], $input['subject_id'], $input['condition'])) {
+    if (createStudentSubject($conn, $input['student_id'], $input['subject_id'], $input['approved'])) {
         echo json_encode(["message" => "Registro agregada correctamente"]);
     } else {
         http_response_code(500);
@@ -27,7 +27,7 @@ function handlePost($conn) {
 
 function handlePut($conn) {
     $input = json_decode(file_get_contents("php://input"), true);
-    if (updateStudentSubject($conn, $input['id'], $input['student_id'], $input['subject_id'], $input['condition'])){
+    if (updateStudentSubject($conn, $input['id'], $input['student_id'], $input['subject_id'], $input['approved'])){
         echo json_encode(["message" => "Actualizado correctamente"]);
     } else {
         http_response_code(500);

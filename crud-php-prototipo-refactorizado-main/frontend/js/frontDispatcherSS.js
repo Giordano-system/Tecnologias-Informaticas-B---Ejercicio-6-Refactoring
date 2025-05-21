@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () =>
     const studentsSubjectsTableBody = document.getElementById('studentsSubjectsTableBody');
     const studentIdInput = document.getElementById('student_id');
     const subjectIdInput = document.getElementById('subject_id');
-    const conditionInput = document.getElementById('condition');
+    const approvedInput = document.getElementById('approved');
     const studentSubjectIdInput = document.getElementById('studentSubjectId');
 
     // Leer todos los estudiantes al cargar
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () =>
             subjects.forEach(subject => {
                 const option = document.createElement('option');
                 option.value = subject.id;
-                option.textContent = subject.subname;
+                option.textContent = subject.name;
                 subjectIdInput.appendChild(option);
             });
         } catch (err) {
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () =>
         const formData = {
             student_id: studentIdInput.value,
             subject_id: subjectIdInput.value,
-            condition: conditionInput.value,
+            approved: approvedInput.value,
         };
 
         // Crea un objeto con la informacion introducida
@@ -133,10 +133,10 @@ document.addEventListener('DOMContentLoaded', () =>
                 tdfullname.textContent = studentsubject.fullname;
 
                 const tdsubject = document.createElement('td');
-                tdsubject.textContent = studentsubject.subname;
+                tdsubject.textContent = studentsubject.name;
 
                 const tdcondicion = document.createElement('td');
-                tdcondicion.textContent = studentsubject.condicion;
+                tdcondicion.textContent = studentsubject.approved;
 
                 const tdActions = document.createElement('td');
                 const editBtn = document.createElement('button');
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () =>
                 editBtn.onclick = () => {
                     studentIdInput.value = studentsubject.stu_id;
                     subjectIdInput.value = studentsubject.sub_id;
-                    conditionInput.value = studentsubject.condicion;
+                    approvedInput.value = studentsubject.condicion;
                     studentSubjectIdInput.value = studentsubject.ss_id;
                 };
 

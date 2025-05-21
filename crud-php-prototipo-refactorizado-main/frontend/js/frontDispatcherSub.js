@@ -13,11 +13,9 @@ document.addEventListener('DOMContentLoaded', () =>
      */
     const subjectForm = document.getElementById('subjectForm');
     const subjectTableBody = document.getElementById('subjectTableBody');
-    const subnameInput = document.getElementById('subname');
-    const professorInput = document.getElementById('professor');
-    const optionalInput = document.getElementById('optional');
-    const credInput = document.getElementById('credits')
+    const subnameInput = document.getElementById('subname');   
     const subjectIdInput = document.getElementById('subjectId');
+
 
     // Leer todos los estudiantes al cargar
     fetchSubjects();
@@ -30,9 +28,6 @@ document.addEventListener('DOMContentLoaded', () =>
 
         const formData = {
             subname: subnameInput.value,
-            professor: professorInput.value,
-            optional: optionalInput.value,
-            credits: credInput.value,
         };
 
         // Crea un objeto con la informacion introducida
@@ -85,26 +80,14 @@ document.addEventListener('DOMContentLoaded', () =>
                 const tr = document.createElement('tr');
 
                 const tdSubname = document.createElement('td');
-                tdSubname.textContent = subject.subname;
-
-                const tdProfessor = document.createElement('td');
-                tdProfessor.textContent = subject.professor;
-
-                const tdOptional = document.createElement('td');
-                tdOptional.textContent = subject.optional;
-
-                const tdCredits = document.createElement('td');
-                tdCredits.textContent = subject.credits;
+                tdSubname.textContent = subject.name;
 
                 const tdActions = document.createElement('td');
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Editar';
                 editBtn.classList.add('w3-button', 'w3-light-green', 'w3-small', 'w3-margin-right');
                 editBtn.onclick = () => {
-                    subnameInput.value = subject.subname;
-                    professorInput.value = subject.professor;
-                    optionalInput.value = subject.optional;
-                    credInput.value = subject.credits
+                    subnameInput.value = subject.name;
                     subjectIdInput.value = subject.id;
                 };
 
@@ -119,9 +102,6 @@ document.addEventListener('DOMContentLoaded', () =>
                 tdActions.appendChild(deleteBtn);
 
                 tr.appendChild(tdSubname);
-                tr.appendChild(tdProfessor);
-                tr.appendChild(tdOptional);
-                tr.appendChild(tdCredits);
                 tr.appendChild(tdActions);
 
                 subjectTableBody.appendChild(tr);

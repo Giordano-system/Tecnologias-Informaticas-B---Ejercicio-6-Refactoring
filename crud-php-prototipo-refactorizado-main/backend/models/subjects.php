@@ -1,6 +1,6 @@
 <?php
 function getAllSubjects($conn) {
-    $sql = "SELECT * FROM subjects ORDER BY credits";
+    $sql = "SELECT * FROM subjects";
     return $conn->query($sql);
 }
 
@@ -12,17 +12,17 @@ function getSubjectById($conn, $id) {
     return $stmt->get_result();
 }
 
-function createSubject($conn, $subname, $professor, $optional, $credits) {
-    $sql = "INSERT INTO subjects (subname, professor, optional, credits) VALUES (?, ?, ?, ?)";
+function createSubject($conn, $subname) {
+    $sql = "INSERT INTO subjects (name) VALUES (?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $subname, $professor, $optional, $credits);
+    $stmt->bind_param("s", $subname);
     return $stmt->execute();
 }
 
-function updateSubject($conn, $id, $subname, $professor, $optional, $credits) {
-    $sql = "UPDATE subjects SET subname = ?, professor = ?, optional = ?, credits = ? WHERE id = ?";
+function updateSubject($conn, $id, $subname) {
+    $sql = "UPDATE subjects SET name = ?  WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssii", $subname, $professor, $optional, $credits, $id);
+    $stmt->bind_param("sssii", $subname, $id);
     return $stmt->execute();
 }
 
