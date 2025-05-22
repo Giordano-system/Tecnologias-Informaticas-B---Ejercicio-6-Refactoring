@@ -29,7 +29,7 @@ async function initSelects()
     {
         // Cargar estudiantes
         const students = await studentsAPI.fetchAll();
-        const studentSelect = document.getElementById('studentIdSelect');
+        const studentSelect = document.getElementById('student_id');
         students.forEach(s => 
         {
             const option = document.createElement('option');
@@ -40,7 +40,7 @@ async function initSelects()
 
         // Cargar materias
         const subjects = await subjectsAPI.fetchAll();
-        const subjectSelect = document.getElementById('subjectIdSelect');
+        const subjectSelect = document.getElementById('subject_id');
         subjects.forEach(sub => 
         {
             const option = document.createElement('option');
@@ -57,7 +57,7 @@ async function initSelects()
 
 function setupFormHandler() 
 {
-    const form = document.getElementById('relationForm');
+    const form = document.getElementById('studentSubjectForm');
     form.addEventListener('submit', async e => 
     {
         e.preventDefault();
@@ -90,7 +90,7 @@ function setupFormHandler()
 function getFormData() 
 {
     return{
-        id: document.getElementById('studentSubjectID').value.trim(),
+        id: document.getElementById('studentSubjectId').value.trim(),
         student_id: document.getElementById('student_id').value,
         subject_id: document.getElementById('subject_id').value,
         approved: document.getElementById('approved').checked ? 1 : 0
