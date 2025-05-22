@@ -1,4 +1,4 @@
-import { subjectsAPI } from '../api/subjectsAPI.js';
+import { subjectsAPI } from '../API/subjectsAPI.js';
 
 document.addEventListener('DOMContentLoaded', () => 
 {

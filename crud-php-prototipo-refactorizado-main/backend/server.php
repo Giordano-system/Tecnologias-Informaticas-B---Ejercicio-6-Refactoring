@@ -1,78 +1,47 @@
 <?php
-/**
- * DEBUG MODE
- */
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-/**
- * Habilita la visualización de errores en pantalla.
- * Muy útil durante desarrollo para detectar errores rápidamente.
- */
-
-
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-/**
-* Permite que tu API sea llamada desde otras páginas (por ejemplo, desde tu frontend).
-* permite cualquier origen. En producción, podrías limitarlo.
-* También acepta métodos comunes (GET, POST, etc.).
-* Acepta cabecera Content-Type (útil para JSON).
-*/
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+function sendCodeMessage($code, $message = "")
+{
+    http_response_code($code);
+    echo json_encode(["message" => $message]);
     exit();
 }
 
-/**
- * Esto responde inmediatamente con 200 OK para permitir continuar.
- * Navegadores mandan peticiones OPTIONS antes de POST/PUT/DELETE.
- */
+// Respuesta correcta para solicitudes OPTIONS (preflight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')
+{
+    sendCodeMessage(200); // 200 OK
+}
 
- $requestUri = $_SERVER['REQUEST_URI'];
- $scriptName = $_SERVER['SCRIPT_NAME'];
+// Obtener el módulo desde la query string
+$uri = parse_url($_SERVER['REQUEST_URI']);
+$query = $uri['query'] ?? '';
+parse_str($query, $query_array);
+$module = $query_array['module'] ?? null;
 
- /**
-  * Extraemos la ruta solicitada
-  */
+// Validación de existencia del módulo
+if (!$module)
+{
+    sendCodeMessage(400, "Módulo no especificado");
+}
 
-$basePath = dirname($scriptName);
-/**
- * Obtenemos el directorio en el que se alamacena el .php
- */
+// Validación de caracteres seguros: solo letras, números y guiones bajos
+if (!preg_match('/^\w+$/', $module))
+{
+    sendCodeMessage(400, "Nombre de módulo inválido");
+}
 
-$routePath = str_replace($basePath . '/server.php', '', $requestUri);
+// Buscar el archivo de ruta correspondiente
+$routeFile = __DIR__ . "/routes/{$module}Routes.php";
 
-/**
- * Busca la primera cadena en la tercera y si la encuentra la reemplazar por la segunda.
- */
-
-$segments = explode('/', trim($routePath, '/'));
-/**
- * Separa el resultado de $routePath en una tupla (Hablando en Python)
- */
-
-$module = $segments[0] ?? null;
-/**
- * Se queda con el primer valor encontrado que seria el modulo
- */
-
- $_GET['modulo'] = $segments[0];
-
-
- $routeFile = __DIR__ . "/routes/Routes.php";
-
- /**
-  * Creamos la ruta y verificamos que exista! 
-  */
-
- if (file_exists($routeFile)) {
+if (file_exists($routeFile))
+{
     require_once($routeFile);
-} else {
-    http_response_code(404);
-    echo json_encode(["error" => "Module not found: $module"]);
+}
+else
+{
+    sendCodeMessage(404, "Ruta para el módulo '{$module}' no encontrada");
 }

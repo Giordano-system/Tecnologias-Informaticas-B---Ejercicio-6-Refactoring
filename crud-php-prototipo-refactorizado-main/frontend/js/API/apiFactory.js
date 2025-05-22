@@ -5,8 +5,8 @@
 
 export function createAPI(moduleName, config = {}) 
 {
-    const API_URL = config.urlOverride ?? "../../backend/server.php/${moduleName}";
-
+    const API_URL = config.urlOverride ?? `../../backend/server.php?module=${moduleName}`;
+    
     async function sendJSON(method, data) 
     {
         const res = await fetch(API_URL,

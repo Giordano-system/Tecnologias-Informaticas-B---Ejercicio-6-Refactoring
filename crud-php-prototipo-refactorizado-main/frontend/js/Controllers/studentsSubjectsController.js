@@ -1,7 +1,7 @@
 
-import { studentsAPI } from '../api/studentsAPI.js';
-import { subjectsAPI } from '../api/subjectsAPI.js';
-import { studentsSubjectsAPI } from '../api/studentsSubjectsAPI.js';
+import { studentsAPI } from '../API/studentsAPI.js';
+import { subjectsAPI } from '../API/subjectsAPI.js';
+import { studentsSubjectsAPI } from '../API/studentsSubjectsAPI.js';
 /**
  * Llama a las 3 APIs para cargar los estudiantes, materias y relaciones.
  */
@@ -90,9 +90,9 @@ function setupFormHandler()
 function getFormData() 
 {
     return{
-        id: document.getElementById('relationId').value.trim(),
-        student_id: document.getElementById('studentIdSelect').value,
-        subject_id: document.getElementById('subjectIdSelect').value,
+        id: document.getElementById('studentSubjectID').value.trim(),
+        student_id: document.getElementById('student_id').value,
+        subject_id: document.getElementById('subject_id').value,
         approved: document.getElementById('approved').checked ? 1 : 0
     };
 }

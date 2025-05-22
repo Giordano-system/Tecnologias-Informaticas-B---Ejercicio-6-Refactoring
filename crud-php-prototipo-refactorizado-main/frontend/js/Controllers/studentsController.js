@@ -1,4 +1,4 @@
-import { studentsAPI } from '../api/studentsAPI.js';
+import { studentsAPI } from '../API/studentsAPI.js';
 
 document.addEventListener('DOMContentLoaded', () => 
 {
@@ -44,7 +44,7 @@ function setupFormHandler()
         }
         catch (err)
         {
-            console.error(err.message);
+            console.error('Error aca:',err.message);
         }
     });
 }

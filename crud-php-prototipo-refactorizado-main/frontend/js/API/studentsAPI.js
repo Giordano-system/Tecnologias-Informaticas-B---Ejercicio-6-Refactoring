@@ -1,2 +1,2 @@
 import { createAPI } from "./apiFactory";
-export const studentssAPI = createAPI("students");
+export const studentsAPI = createAPI("students");
