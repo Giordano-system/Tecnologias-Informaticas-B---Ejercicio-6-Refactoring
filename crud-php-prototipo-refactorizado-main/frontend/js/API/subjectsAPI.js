@@ -1,2 +1,2 @@
-import { createAPI } from "./apiFactory";
+import { createAPI } from "./apiFactory.js";
 export const subjectsAPI = createAPI("subjects");
