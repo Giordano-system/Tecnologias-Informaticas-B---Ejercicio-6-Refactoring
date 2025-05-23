@@ -5,8 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestión de Estudiantes</title>
-  <link rel="stylesheet" href="css/w3.css" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="../css/w3.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script type="module" src="../js/controllers/studentsController.js"></script>
+
 </head>
 <body class="w3-container w3-light-grey">
 
@@ -32,7 +34,7 @@
 
     <div class="w3-margin-top">
       <button class="w3-button w3-blue" type="submit">Guardar</button>
-      <button class="w3-button w3-blue" type="reset" onclick="document.getElementById('studentId').value = ''">Cancelar</button>
+      <button class="w3-button w3-blue" type="reset" onclick="document.getElementById('studentId').value = ''" id="cancelBtn">Cancelar</button>
     </div>
   </form>
 
@@ -55,6 +57,5 @@
     Materias →
   </a>
   </aside>
-  <script src="js/frontDispatcher.js"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@ function createSubject($conn, $subname) {
 function updateSubject($conn, $id, $subname) {
     $sql = "UPDATE subjects SET name = ?  WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssii", $subname, $id);
+    $stmt->bind_param("si", $subname, $id);
     return $stmt->execute();
 }
 
