@@ -26,7 +26,18 @@ function createStudentSubject($conn, $student_id, $subject_id, $condition) {
     $sql = "INSERT INTO students_subjects (student_id, subject_id, approved) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iis", $student_id, $subject_id, $condition);
-    return $stmt->execute();
+    try{
+        if ($stmt->execute())
+            return true;
+        else
+            throw new Exception("Error al asignar la materia al estudiante: " . $stmt->error, $stmt->errno);
+    } catch (Exception $e) {
+        if ($e->getCode() == 1062) { // Duplicate entry error code
+            throw new Exception("Ya existe una asignación de esta materia para este estudiante", 409);
+        } else {
+            throw $e;
+        }
+    }
 }
 
 //Desde el HandlePut se llama a esta funcion para actualizar la informacion del estudiante
@@ -35,7 +46,18 @@ function updateStudentSubject($conn, $id, $student_id, $subject_id, $condition) 
     $sql = "UPDATE students_subjects SET student_id = ?, subject_id = ?, approved = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iisi", $student_id, $subject_id, $condition, $id);
-    return $stmt->execute();
+    try{
+        if ($stmt->execute())
+            return true;
+        else
+            throw new Exception("Error al actualizar la materia del estudiante: " . $stmt->error, $stmt->errno);
+    } catch (Exception $e) {
+        if ($e->getCode() == 1062) { // Duplicate entry error code
+            throw new Exception("Ya existe una asignación de esta materia para este estudiante", 409);
+        } else {
+            throw $e;
+        }
+    }
 }
 
 //Desde el HandleDelete se llama a esta funcion para eliminar al estudiante con ID 

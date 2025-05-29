@@ -4,15 +4,26 @@ export function createAPI(moduleName, config = {})
 
     async function sendJSON(method, data) 
     {
-        const res = await fetch(API_URL,
-        {
+      try {
+        const res = await fetch(API_URL, {
             method,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-
-        if (!res.ok) throw new Error(`Error en ${method}`);
-        return await res.json();
+            body: JSON.stringify(data),
+        })
+        if (!res.ok) throw new Error(await res.text())
+        // Verifica si la respuesta tiene un código de estado NO exitoso (cualquier cosa fuera del rango 200–299).
+        return await res.json()
+        // Si la respuesta es exitosa, convierte la respuesta a JSON y la devuelve.
+        }catch (err) {
+            console.log(err)        
+            const errMessage = JSON.parse(err.message)
+            throw errMessage.error
+        }
+        /**
+         * Si ocurre cualquier error en el bloque try (por ejemplo, fetch falla o la respuesta no fue OK), entra al catch.
+           Intenta convertir el mensaje de error (err.message) a un objeto JSON.
+           Luego, lanza el mensaje de error limpio que venía desde el servidor (usualmente en una estructura como { "error": "mensaje" }).
+         */
     }
 
     return {

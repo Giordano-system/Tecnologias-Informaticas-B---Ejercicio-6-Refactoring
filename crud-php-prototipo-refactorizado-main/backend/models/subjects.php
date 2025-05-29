@@ -16,14 +16,36 @@ function createSubject($conn, $subname) {
     $sql = "INSERT INTO subjects (name) VALUES (?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $subname);
-    return $stmt->execute();
+    try{
+        if($stmt->execute())
+            return true;
+        else
+            throw new Exception("Error al agregar la materia: " . $stmt->error, $stmt->errno);
+    }catch (Exception $e) {
+        if ($e->getCode() == 1062) { //Entrada duplicada
+            throw new Exception ("Materia ya registrada",409);
+        }else{
+            throw $e;
+        }
+    }
 }
 
 function updateSubject($conn, $id, $subname) {
     $sql = "UPDATE subjects SET name = ?  WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("si", $subname, $id);
-    return $stmt->execute();
+    try{
+        if($stmt->execute())
+            return true;
+        else
+            throw new Exception("Error al actualizar la materia: " . $stmt->error, $stmt->errno);
+    }catch (Exception $e) {
+        if ($e->getCode() == 1062) { //Entrada duplicada
+            throw new Exception ("Materia ya registrada",409);
+        }else{
+            throw $e;
+        }
+    }
 }
 
 function deleteSubject($conn, $id) {

@@ -16,22 +16,36 @@ function handleGet($conn) {
 }
 
 function handlePost($conn) {
-    $input = json_decode(file_get_contents("php://input"), true);
-    if (createSubject($conn, $input['name'])) {
-        echo json_encode(["message" => "Materia agregada correctamente"]);
-    } else {
-        http_response_code(500);
-        echo json_encode(["error" => "No se pudo agregar"]);
+    try{
+        $input = json_decode(file_get_contents("php://input"), true);
+        $response = createSubject($conn, $input['name']);
+        // Si la respuesta es verdadera, significa que se agregó correctamente
+        if ($response==true) {
+            echo json_encode(["message" => "Materia agregada correctamente"]);
+        }
+    } catch(Exception $e) {
+        //Tomamos el error para poder mostrarlo
+        http_response_code($e->getCode() ?: 500); // Si no hay código, usamos 500
+        //Devolvemos el error en formato JSON
+        echo json_encode(["error" => $e->getMessage()]);
+        return;
     }
 }
 
 function handlePut($conn) {
-    $input = json_decode(file_get_contents("php://input"), true);
-    if (updateSubject($conn, $input['id'], $input['name'])) {
-        echo json_encode(["message" => "Actualizada correctamente"]);
-    } else {
-        http_response_code(500);
-        echo json_encode(["error" => "No se pudo actualizar"]);
+    try{
+        $input = json_decode(file_get_contents("php://input"), true);
+        // Se toman los valores enviados a traves del formulario HTML
+        $response = updateSubject($conn, $input['id'], $input['name']);
+        if ($response == true) {
+            echo json_encode(["message" => "Materia actualizada correctamente"]);
+        }
+    }catch(Exception $e) {
+        //Tomamos el error para poder mostrarlo
+        http_response_code($e->getCode() ?: 500); // Si no hay código, usamos 500
+        //Devolvemos el error en formato JSON
+        echo json_encode(["error" => $e->getMessage()]);
+        return;
     }
 }
 
