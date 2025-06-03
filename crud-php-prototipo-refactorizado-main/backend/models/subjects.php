@@ -52,6 +52,17 @@ function deleteSubject($conn, $id) {
     $sql = "DELETE FROM subjects WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
-    return $stmt->execute();
+    try{
+        if($stmt->execute())
+            return true;
+        else
+            throw new Exception("Error al eliminar la materia: " . $stmt->error, $stmt->errno);
+    }catch (Exception $e) {
+        if ($e->getCode() == 1451) { // Error de clave foránea
+            throw new Exception ("No se puede eliminar la materia porque tiene estudiantes asignados",409);
+        }else{
+            throw $e;
+        }
+    }
 }
 ?>

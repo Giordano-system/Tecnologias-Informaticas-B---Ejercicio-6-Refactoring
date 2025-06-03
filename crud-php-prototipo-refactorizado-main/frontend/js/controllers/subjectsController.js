@@ -116,8 +116,12 @@ async function confirmDeleteSubject(id)
 
     try
     {
-        await subjectsAPI.remove(id);
-        loadSubjects();
+        try{
+            await subjectsAPI.remove(id);
+            loadSubjects();
+        }catch (err) {
+            alert(`Error al borrar materia: ${err}`);
+        }
     }
     catch (err)
     {

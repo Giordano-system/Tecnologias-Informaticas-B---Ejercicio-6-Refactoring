@@ -56,12 +56,17 @@ function handlePut($conn) {
 //Se quiere eliminar un estudiante
 
 function handleDelete($conn) {
-    $input = json_decode(file_get_contents("php://input"), true);
-    if (deleteStudent($conn, $input['id'])) {
-        echo json_encode(["message" => "Eliminado correctamente"]);
-    } else {
-        http_response_code(500);
-        echo json_encode(["error" => "No se pudo eliminar"]);
+    try{
+        $input = json_decode(file_get_contents("php://input"), true);
+        $response = deleteStudent($conn, $input['id']);
+        if ($response==true){
+            echo json_encode(["message" => "Eliminado correctamente"]);
+        }
+    }catch(Exception $e){
+        http_response_code($e->getCode() ?: 500); // Si no hay código, usamos 500
+        //Devolvemos el error en formato JSON
+        echo json_encode(["error" => $e->getMessage()]);
+        return;
     }
 }
 ?>

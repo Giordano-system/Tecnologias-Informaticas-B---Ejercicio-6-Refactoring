@@ -63,6 +63,17 @@ function deleteStudent($conn, $id) {
     $sql = "DELETE FROM students WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
-    return $stmt->execute();
+    try{
+        if ($stmt->execute())
+            return true;
+        else
+            throw new Exception("Error al eliminar al estudiante" . $stmt->error, $stmt->errno);
+    }catch (Exception $e) {
+        if ($e->getCode() == 1451) { //Codigo de eliminar llave foranea
+            throw new Exception ("No se puede eliminar al estudiante porque tiene cursos asociados",409);
+        }else{
+            throw $e;
+        }
+    }
 }
 ?>
