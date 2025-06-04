@@ -137,7 +137,13 @@ async function confirmDelete(id)
             loadStudents();
         }
         catch (err){
-            alert(`Error al borrar: ${err}`);
+            const erroresDiv = document.getElementById('errores');
+            erroresDiv.className = 'w3-panel w3-red w3-padding';
+            erroresDiv.textContent = err || "Error al borrar.";
+            setTimeout(() => {
+            erroresDiv.textContent = "";
+            erroresDiv.className = 'w3-panel w3-hide';
+            }, 5000);
         }
     } 
     catch (err) 
